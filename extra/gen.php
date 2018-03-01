@@ -21,11 +21,6 @@ $validation = [
     'body'
 ];
 
-$validation = [
-    'head',
-    'body'
-];
-
 $yaml = new \EvilFreelancer\Yaml();
 
 echo $yaml
