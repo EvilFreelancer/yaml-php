@@ -21,11 +21,16 @@ $validation = [
     'body'
 ];
 
+$validation = [
+    'head',
+    'body'
+];
+
 $yaml = new \EvilFreelancer\Yaml();
 
 echo $yaml
     ->set($array)
-    ->validate($validation)
+    ->validate($validation, true)
     ->show();
 
 $out = $yaml->read('example.yaml')->get();

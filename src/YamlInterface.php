@@ -16,10 +16,11 @@ interface YamlInterface
     /**
      * Read Yaml from file
      *
-     * @param   string $filename - File or URL with Yaml inside
+     * @param   string|null $filename - File or URL with Yaml inside
+     * @param   string|null $data - Plain Yaml
      * @return  Yaml
      */
-    public function read(string $filename): Yaml;
+    public function read(string $filename = null, string $data = null): Yaml;
 
     /**
      * Save Yaml to file
@@ -56,9 +57,9 @@ interface YamlInterface
      * Validate Yaml before saving
      *
      * @param   array $values - Array of parameters which should be validated
-     * @param   bool $strict - Enable check in both sides
+     * @param   bool $strong - Enable strong check in two ways
      * @return  Yaml
      * @throws  \Exception
      */
-    public function validate(array $values, bool $strict = false): Yaml;
+    public function validate(array $values): Yaml;
 }
