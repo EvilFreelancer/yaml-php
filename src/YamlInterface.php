@@ -56,8 +56,9 @@ interface YamlInterface
      * Validate Yaml before saving
      *
      * @param   array $values - Array of parameters which should be validated
+     * @param   bool $strict - Enable check in both sides
      * @return  Yaml
      * @throws  \Exception
      */
-    public function validate(array $values): Yaml;
+    public function validate(array $values, bool $strict = false): Yaml;
 }

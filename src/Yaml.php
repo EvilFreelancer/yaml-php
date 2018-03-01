@@ -42,7 +42,7 @@ class Yaml implements YamlInterface
         return $this;
     }
 
-    public function validate(array $values = []): Yaml
+    public function validate(array $values, bool $strict = false): Yaml
     {
         foreach ($this->get() as $p_key => $p_value) {
 
