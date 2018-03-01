@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $array = [
+    'test' => 'asd',
     'head' => [
         'item1',
         'item2',
@@ -15,6 +16,7 @@ $array = [
 ];
 
 $validation = [
+    'test',
     'head',
     'body'
 ];
