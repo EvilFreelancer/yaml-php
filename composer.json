@@ -1,0 +1,21 @@
+{
+    "name": "evilfreelancer/yaml-php",
+    "authors": [
+        {
+            "name": "Paul Rock",
+            "email": "paul@drteam.rocks"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "EvilFreelancer\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-yaml": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    }
+}
