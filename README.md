@@ -9,7 +9,7 @@ For correct work you need install YAML extension of PHP interpreter.
 ## How to use
 
 ```php
-$yaml = new \EvilFreelancer\Yaml();
+$yaml = new \EvilFreelancer\Yaml\Yaml();
 
 // Generate YAML and print to stdOut
 $yaml_text = $yaml->set($array)->show();

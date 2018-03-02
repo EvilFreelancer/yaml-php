@@ -21,7 +21,7 @@ $validation = [
     'body'
 ];
 
-$yaml = new \EvilFreelancer\Yaml();
+$yaml = new \EvilFreelancer\Yaml\Yaml();
 
 echo $yaml
     ->set($array)
