@@ -1,8 +1,8 @@
-<?php namespace EvilFreelancer;
+<?php namespace EvilFreelancer\Yaml;
 
 /**
  * Class Export
- * @package EvilFreelancer
+ * @package EvilFreelancer\Yaml
  */
 class Export
 {

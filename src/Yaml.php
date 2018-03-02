@@ -1,8 +1,8 @@
-<?php namespace EvilFreelancer;
+<?php namespace EvilFreelancer\Yaml;
 
 /**
  * Class Yaml
- * @package EvilFreelancer
+ * @package EvilFreelancer\Yaml
  */
 class Yaml implements YamlInterface
 {

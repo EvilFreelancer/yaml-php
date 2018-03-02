@@ -1,8 +1,8 @@
-<?php namespace EvilFreelancer;
+<?php namespace EvilFreelancer\Yaml;
 
 /**
  * Class Import
- * @package EvilFreelancer
+ * @package EvilFreelancer\Yaml
  */
 class Import
 {

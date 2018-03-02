@@ -1,6 +1,6 @@
 <?php
 
-use EvilFreelancer\Yaml;
+use EvilFreelancer\Yaml\Yaml;
 use PHPUnit\Framework\TestCase;
 
 class YamlTest extends TestCase
