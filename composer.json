@@ -1,7 +1,7 @@
 {
     "name": "evilfreelancer/yaml-php",
     "type": "library",
-    "description": "Yaml config generator written on PHP7",
+    "description": "Extra small PHP library for YAML configs importing and exporting.",
     "license": "MIT",
     "authors": [
         {
