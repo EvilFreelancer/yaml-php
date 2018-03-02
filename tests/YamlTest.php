@@ -5,6 +5,8 @@ use PHPUnit\Framework\TestCase;
 
 class YamlTest extends TestCase
 {
+    private $yaml;
+
     public function __construct()
     {
         parent::__construct();
@@ -79,7 +81,7 @@ class YamlTest extends TestCase
 
     public function testSave()
     {
-
+        $this->temp = tmpfile();
     }
 
     public function testShow()

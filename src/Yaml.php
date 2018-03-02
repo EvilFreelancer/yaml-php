@@ -1,12 +1,13 @@
-<?php
+<?php namespace EvilFreelancer;
 
-namespace EvilFreelancer;
-
+/**
+ * Class Yaml
+ * @package EvilFreelancer
+ */
 class Yaml implements YamlInterface
 {
     private $_parameters = [];
     private $_strict = false;
-    private $_exceptions;
 
     /**
      * @param bool $strict - Enable strong check in both sides
@@ -14,7 +15,6 @@ class Yaml implements YamlInterface
     public function __construct(bool $strict = false)
     {
         $this->_strict = $strict;
-        $this->_exceptions = new YamlExceptions($strict);
     }
 
     /**
@@ -52,12 +52,10 @@ class Yaml implements YamlInterface
     public function save(string $filename): bool
     {
         try {
-            $yaml = yaml_emit_file($filename, $this->get());
-            if (!$yaml) {
-                throw new \Exception("File $filename could not to be saved.");
-            }
+            $yaml = Export::save($filename, $this->show());
+
         } catch (\Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
+            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
             !$this->_strict ?: die();
         }
 
@@ -69,7 +67,15 @@ class Yaml implements YamlInterface
      */
     public function show(): string
     {
-        return yaml_emit($this->get());
+        try {
+            $yaml = Export::show($this->get());
+
+        } catch (\Exception $e) {
+            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+            !$this->_strict ?: die();
+        }
+
+        return $yaml;
     }
 
     /**
@@ -80,25 +86,14 @@ class Yaml implements YamlInterface
     public function read(string $filename = null, string $data = null): Yaml
     {
         try {
-            if (!empty($data)) {
-                $yaml = yaml_parse($data);
-                if (!$yaml) {
-                    throw new \Exception('Yaml can\'t to be parsed.');
-                }
-            } else {
-                $yaml = filter_var($filename, FILTER_VALIDATE_URL)
-                    ? yaml_parse_url($filename)
-                    : yaml_parse_file($filename);
-
-                if (!$yaml) {
-                    throw new \Exception('Yaml can\'t to be parsed from source.');
-                }
-            }
+            $yaml = !empty($data)
+                ? Import::readFromData($data)
+                : Import::readFromFile($filename);
 
             $this->set($yaml);
 
         } catch (\Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
+            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
             !$this->_strict ?: die();
         }
 
@@ -112,20 +107,27 @@ class Yaml implements YamlInterface
      */
     public function validate(array $values, bool $strong = false): Yaml
     {
-        // Check for empty array
-        $this->_exceptions->arrayEmpty($values);
-
-        // Parse parameters in loop
-        foreach ($this->get() as $p_key => $p_value) {
-            // First level of keys
-            $this->_exceptions->arrayKey($p_key, $values, 'parameters');
-        }
-
-        // If strong check is enabled
-        if (true === $strong) {
-            foreach ($values as $v_key) {
-                $this->_exceptions->arrayKey($v_key, array_keys($this->get()), 'validation');
+        try {
+            // Parse parameters in loop
+            foreach ($this->get() as $p_key => $p_value) {
+                // First level of keys
+                if (!in_array($p_key, $values, true)) {
+                    throw new \Exception("Parameter \"$p_key\" is not valid.");
+                }
             }
+
+            // If strong check is enabled
+            if (true === $strong) {
+                foreach ($values as $v_key) {
+                    if (!in_array($v_key, array_keys($this->get()))) {
+                        throw new \Exception("Parameter \"$v_key\" must be in parameters.");
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+            !$this->_strict ?: die();
         }
 
         return $this;
