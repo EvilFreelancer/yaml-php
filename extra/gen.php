@@ -28,5 +28,10 @@ echo $yaml
     ->validate($validation, true)
     ->show();
 
+echo $yaml
+    ->set($array)
+    ->validate($validation, true)
+    ->save('test.yaml', false);
+
 $out = $yaml->read('example.yaml')->get();
 print_r($out);

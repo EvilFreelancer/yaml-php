@@ -4,14 +4,16 @@
  * Class Import
  * @package EvilFreelancer\Yaml
  */
-class Import
+class Import implements Interfaces\Import
 {
     /**
-     * @param string $filename
-     * @return mixed
-     * @throws \Exception
+     * Read YAML from file or by URL
+     *
+     * @param   string $filename - Name of file or url from which YAML must be taken
+     * @return  mixed
+     * @throws  \Exception
      */
-    static function readFromFile(string $filename)
+    static public function readFromFile(string $filename)
     {
         $yaml = filter_var($filename, FILTER_VALIDATE_URL)
             ? yaml_parse_url($filename)
@@ -25,11 +27,13 @@ class Import
     }
 
     /**
-     * @param string $data
-     * @return mixed
-     * @throws \Exception
+     * Parce plain text with YAML inside
+     *
+     * @param   string $data - YAML in text format
+     * @return  mixed
+     * @throws  \Exception
      */
-    static function readFromData(string $data)
+    static public function readFromData(string $data)
     {
         $yaml = yaml_parse($data);
 

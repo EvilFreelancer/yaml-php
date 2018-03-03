@@ -1,10 +1,10 @@
-<?php namespace EvilFreelancer\Yaml;
+<?php namespace EvilFreelancer\Yaml\Interfaces;
 
 /**
- * Interface YamlInterface
- * @package EvilFreelancer\Yaml
+ * Interface Yaml
+ * @package EvilFreelancer\Yaml\Interfaces
  */
-interface YamlInterface
+interface Yaml
 {
     /**
      * Get all stored variables
@@ -25,10 +25,11 @@ interface YamlInterface
     /**
      * Save Yaml to file
      *
-     * @param   string $filename
+     * @param   string $filename - Name of file
+     * @param   bool $debug - Save file to tmp or as normal file
      * @return  bool
      */
-    public function save(string $filename): bool;
+    public function save(string $filename, bool $debug = false): bool;
 
     /**
      * Return ready for usage generated Yaml
@@ -61,5 +62,5 @@ interface YamlInterface
      * @return  Yaml
      * @throws  \Exception
      */
-    public function validate(array $values): Yaml;
+    public function validate(array $values, bool $strong = false): Yaml;
 }

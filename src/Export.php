@@ -4,34 +4,23 @@
  * Class Export
  * @package EvilFreelancer\Yaml
  */
-class Export
+class Export implements Interfaces\Export
 {
     /**
-     * @param string $filename
+     * @param object $fileObject
      * @param string $data
-     * @param bool $tmp
      * @return bool|int
      * @throws \Exception
      */
-    static function save(string $filename, string $data, bool $tmp = false)
+    static public function save(object $fileObject, string $data)
     {
-        $fp = $tmp
-            ? fopen($filename, "w")
-            : tmpfile();
+        $write = $fileObject->fwrite($data);
 
-        if (!$fp) {
-            throw new \Exception('File open failed.');
+        if (!$write) {
+            throw new \Exception("File could not to be saved.");
         }
 
-        $fw = fwrite($fp, $data);
-
-        if (!$fw) {
-            throw new \Exception("File $filename could not to be saved.");
-        }
-
-        fclose($fp);
-
-        return $fw;
+        return $write;
     }
 
     /**
@@ -39,12 +28,12 @@ class Export
      * @return string
      * @throws \Exception
      */
-    static function show(array $array): string
+    static public function show(array $array): string
     {
         $yaml = yaml_emit($array);
 
         if (!$yaml) {
-            throw new \Exception('Yaml can\'t to be emitted from current array.');
+            throw new \Exception('YAML can\'t to be emitted from current array.');
         }
 
         return $yaml;
