@@ -41,7 +41,7 @@ class Yaml implements YamlInterface
      */
     public function add(array $parameters): Yaml
     {
-        $this->_parameters = array_merge($this->_parameters, $parameters);
+        $this->_parameters += $parameters;
         return $this;
     }
 
