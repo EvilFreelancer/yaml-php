@@ -70,7 +70,7 @@ class Yaml implements Interfaces\Yaml
     public function save(string $filename, bool $debug = false): bool
     {
         try {
-            $fileObject = $debug
+            $fileObject = !$debug
                 ? new \SplFileObject($filename, 'w')
                 : new \SplTempFileObject();
 

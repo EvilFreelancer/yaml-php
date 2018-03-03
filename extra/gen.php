@@ -31,7 +31,7 @@ echo $yaml
 echo $yaml
     ->set($array)
     ->validate($validation, true)
-    ->save('test.yaml', false);
+    ->save('test.yaml', true);
 
 $out = $yaml->read('example.yaml')->get();
 print_r($out);
