@@ -99,6 +99,24 @@ echo $yaml
     ->show();
 ```
 
+Output is:
+
+```yaml
+---
+string: zzz
+integer: 42
+bool: true
+array_simple:
+- item1
+- item2
+- item3
+array_md:
+  string1: text
+  integer: 42
+  bool: true
+...
+```
+
 ## How to use validation
 
 ```php
