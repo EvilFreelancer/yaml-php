@@ -1,6 +1,6 @@
-# YAML PHP Import/Export
+# YAML PHP Import/Export with validation
 
-Extra small PHP library for YAML configs importing and exporting.
+Small PHP library for importing and exporting with validation of YAML configuration files.
 
     composer require evilfreelancer/yaml-php
 

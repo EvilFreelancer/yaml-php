@@ -1,7 +1,7 @@
 {
     "name": "evilfreelancer/yaml-php",
     "type": "library",
-    "description": "Extra small PHP library for YAML configs importing and exporting.",
+    "description": "Small PHP library for importing and exporting with validation of YAML configuration files.",
     "license": "MIT",
     "authors": [
         {
