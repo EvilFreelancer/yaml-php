@@ -1,5 +1,8 @@
 <?php namespace EvilFreelancer\Yaml;
 
+use EvilFreelancer\Yaml\Exceptions\YamlException;
+use EvilFreelancer\Yaml\Exceptions\ArrayException;
+
 /**
  * Class Yaml
  * @package EvilFreelancer\Yaml
@@ -69,6 +72,7 @@ class Yaml implements Interfaces\Yaml
      */
     public function save(string $filename, bool $debug = false): bool
     {
+        $yaml = false;
         try {
             $fileObject = !$debug
                 ? new \SplFileObject($filename, 'w')
@@ -76,8 +80,7 @@ class Yaml implements Interfaces\Yaml
 
             $yaml = Export::save($fileObject, $this->show());
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+        } catch (YamlException $e) {
             !$this->_strict ?: die();
         }
 
@@ -91,11 +94,11 @@ class Yaml implements Interfaces\Yaml
      */
     public function show(): string
     {
+        $yaml = false;
         try {
             $yaml = Export::show($this->get());
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+        } catch (YamlException $e) {
             !$this->_strict ?: die();
         }
 
@@ -113,13 +116,12 @@ class Yaml implements Interfaces\Yaml
     {
         try {
             $yaml = !empty($data)
-                ? Import::readFromData($data)
-                : Import::readFromFile($filename);
+                ? Import::fromData($data)
+                : Import::fromFile($filename);
 
             $this->set($yaml);
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+        } catch (YamlException $e) {
             !$this->_strict ?: die();
         }
 
@@ -129,33 +131,29 @@ class Yaml implements Interfaces\Yaml
     /**
      * Validate Yaml before saving
      *
-     * @param   array $values - Array of parameters which should be validated
+     * @param   array $schema - Array of parameters which should be validated
      * @param   bool $strong - Enable strong check in two ways
      * @return  Yaml
-     * @throws  \Exception
      */
-    public function validate(array $values, bool $strong = false): Interfaces\Yaml
+    public function validate(array $schema, bool $strong = false): Interfaces\Yaml
     {
         try {
             // Parse parameters in loop
-            foreach ($this->get() as $p_key => $p_value) {
-                // First level of keys
-                if (!in_array($p_key, $values, true)) {
-                    throw new \Exception("Parameter \"$p_key\" is not valid.");
-                }
+            $keys = $this->get();
+
+            foreach ($keys as $p_key => $p_value) {
+                ArrayException::inArray($values, $p_key, 'exist');
             }
 
             // If strong check is enabled
             if (true === $strong) {
+                $keys = array_keys($this->get());
                 foreach ($values as $v_key) {
-                    if (!in_array($v_key, array_keys($this->get()))) {
-                        throw new \Exception("Parameter \"$v_key\" must be in parameters.");
-                    }
+                    ArrayException::inArray($keys, $v_key, 'valid');
                 }
             }
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
+        } catch (ArrayException $e) {
             !$this->_strict ?: die();
         }
 

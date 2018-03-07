@@ -1,18 +1,45 @@
 <?php namespace EvilFreelancer\Yaml\Exceptions;
 
-use Throwable;
-
-class YamlException extends \Exception
+class YamlException extends Exceptions
 {
-    public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
+    /**
+     * @param $bool
+     * @return mixed
+     * @throws YamlException
+     */
+    static function export($bool)
     {
-        parent::__construct($message, $code, $previous);
-        $this->errorLog("Error in " . $this->getFile() . " line " . $this->getLine() . ": " . $this->getMessage() . "\n");
+        if (!$bool) {
+            throw new YamlException('YAML can\'t to be emitted from current array');
+        }
+        return $bool;
     }
 
-    public function errorLog(string $error)
+    /**
+     * @param $bool
+     * @return mixed
+     * @throws YamlException
+     */
+    static function importFromFile($bool)
     {
-        error_log($error);
-        return false;
+        if (!$bool) {
+            throw new YamlException('Yaml can\'t to be parsed from source');
+        }
+        return $bool;
     }
+
+    /**
+     * @param $bool
+     * @return mixed
+     * @throws YamlException
+     */
+    static function importFromData($bool)
+    {
+        if (!$bool) {
+            throw new YamlException('Yaml can\'t to be parsed');
+        }
+        return $bool;
+    }
+
+
 }

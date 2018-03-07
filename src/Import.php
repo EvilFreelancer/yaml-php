@@ -1,5 +1,7 @@
 <?php namespace EvilFreelancer\Yaml;
 
+use EvilFreelancer\Yaml\Exceptions\YamlException;
+
 /**
  * Class Import
  * @package EvilFreelancer\Yaml
@@ -11,18 +13,15 @@ class Import implements Interfaces\Import
      *
      * @param   string $filename - Name of file or url from which YAML must be taken
      * @return  mixed
-     * @throws  \Exception
+     * @throws  YamlException
      */
-    static public function readFromFile(string $filename)
+    static public function fromFile(string $filename)
     {
         $yaml = filter_var($filename, FILTER_VALIDATE_URL)
             ? yaml_parse_url($filename)
             : yaml_parse_file($filename);
 
-        if (!$yaml) {
-            throw new \Exception('Yaml can\'t to be parsed from source.');
-        }
-
+        YamlException::importFromFile($yaml);
         return $yaml;
     }
 
@@ -31,16 +30,12 @@ class Import implements Interfaces\Import
      *
      * @param   string $data - YAML in text format
      * @return  mixed
-     * @throws  \Exception
+     * @throws  YamlException
      */
-    static public function readFromData(string $data)
+    static public function fromData(string $data)
     {
         $yaml = yaml_parse($data);
-
-        if (!$yaml) {
-            throw new \Exception('Yaml can\'t to be parsed.');
-        }
-
+        YamlException::importFromData($yaml);
         return $yaml;
     }
 }

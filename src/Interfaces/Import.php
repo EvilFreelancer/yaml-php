@@ -13,7 +13,7 @@ interface Import
      * @return  mixed
      * @throws  \Exception
      */
-    static public function readFromFile(string $filename);
+    static public function fromFile(string $filename);
 
     /**
      * Parce plain text with YAML inside
@@ -22,5 +22,5 @@ interface Import
      * @return  mixed
      * @throws  \Exception
      */
-    static public function readFromData(string $data);
+    static public function fromData(string $data);
 }

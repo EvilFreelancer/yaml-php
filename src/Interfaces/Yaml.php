@@ -60,7 +60,6 @@ interface Yaml
      * @param   array $values - Array of parameters which should be validated
      * @param   bool $strong - Enable strong check in two ways
      * @return  Yaml
-     * @throws  \Exception
      */
     public function validate(array $values, bool $strong = false): Yaml;
 }

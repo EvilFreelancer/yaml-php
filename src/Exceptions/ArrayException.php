@@ -1,18 +1,20 @@
 <?php namespace EvilFreelancer\Yaml\Exceptions;
 
-class FileException extends Exceptions
+class ArrayException extends Exceptions
 {
     /**
-     * @param   $bool
-     * @return  mixed
-     * @throws  YamlException
+     * @param   array $array
+     * @param   string $key
+     * @param   string $message - Additional message of string
+     * @return  bool
+     * @throws  ArrayException
      */
-    static function fileSave($bool)
+    static function inArray(array $array, string $key, string $message = 'exist'): bool
     {
-        if (!$bool) {
-            throw new YamlException("File could not to be saved.");
+        if (!in_array($key, $array)) {
+            throw new ArrayException("Parameter \"$key\" is not $message");
         }
-        return $bool;
+        return true;
     }
 
 }

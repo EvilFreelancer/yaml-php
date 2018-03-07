@@ -1,6 +1,6 @@
-<?php namespace EvilFreelancer\Yaml\Interfaces;
+<?php namespace EvilFreelancer\Yaml;
 
-interface Types
+abstract class Types
 {
     const INT = 'int';
     const BOOL = 'bool';
