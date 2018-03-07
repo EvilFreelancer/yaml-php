@@ -1,4 +1,5 @@
 <?php namespace EvilFreelancer\Yaml\Interfaces;
+use EvilFreelancer\Yaml\Validation;
 
 /**
  * Interface Yaml
@@ -57,9 +58,9 @@ interface Yaml
     /**
      * Validate Yaml before saving
      *
-     * @param   array $values - Array of parameters which should be validated
+     * @param   array $schema - Array of parameters which should be validated
      * @param   bool $strong - Enable strong check in two ways
      * @return  Yaml
      */
-    public function validate(array $values, bool $strong = false): Yaml;
+    public function validate(array $schema, bool $strong = false): Yaml;
 }

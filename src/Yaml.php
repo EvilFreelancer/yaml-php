@@ -2,6 +2,8 @@
 
 use EvilFreelancer\Yaml\Exceptions\YamlException;
 use EvilFreelancer\Yaml\Exceptions\ArrayException;
+use EvilFreelancer\Yaml\Exceptions\TypeException;
+use EvilFreelancer\Yaml\Validation;
 
 /**
  * Class Yaml
@@ -129,6 +131,42 @@ class Yaml implements Interfaces\Yaml
     }
 
     /**
+     * Compare current parameters with required schema
+     *
+     * @param   array $parameters
+     * @param   array $schema
+     * @param   string|null $parent_key
+     */
+    private function parse(array $parameters, array $schema, string $parent_key = null)
+    {
+        array_map(
+            function ($key, $value) use ($schema, $parent_key) {
+                // If key found in schema
+                if (array_key_exists($key, $schema)) {
+
+                    // If we have two arrays, then run recursive analyze
+                    if (is_array($value) && is_array($schema[$key])) {
+                        $this->parse($value, $schema[$key], $key);
+                    } else {
+                        // Make method from variable
+                        $method = 'is_' . $schema[$key];
+
+                        try {
+                            // Check for exception
+                            TypeException::wrongType($method, $key, $value, $schema[$key], $parent_key);
+                        } catch (TypeException $e) {
+                            !$this->_strict ?: die();
+                        }
+                    }
+
+                }
+            },
+            array_keys($parameters),
+            $parameters
+        );
+    }
+
+    /**
      * Validate Yaml before saving
      *
      * @param   array $schema - Array of parameters which should be validated
@@ -137,25 +175,14 @@ class Yaml implements Interfaces\Yaml
      */
     public function validate(array $schema, bool $strong = false): Interfaces\Yaml
     {
-        try {
-            // Parse parameters in loop
-            $keys = $this->get();
+        $valid = new Validation();
+        $valid->compare($schema, $this->_parameters);
 
-            foreach ($keys as $p_key => $p_value) {
-                ArrayException::inArray($values, $p_key, 'exist');
-            }
+        // Parse parameters in loop
+        $parameters = $this->get();
 
-            // If strong check is enabled
-            if (true === $strong) {
-                $keys = array_keys($this->get());
-                foreach ($values as $v_key) {
-                    ArrayException::inArray($keys, $v_key, 'valid');
-                }
-            }
-
-        } catch (ArrayException $e) {
-            !$this->_strict ?: die();
-        }
+        // Parse two arrays and compare data
+        $this->parse($parameters, $schema);
 
         return $this;
     }

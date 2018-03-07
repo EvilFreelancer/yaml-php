@@ -2,7 +2,7 @@
 
 abstract class Types
 {
-    const INT = 'int';
+    const INT = 'integer';
     const BOOL = 'bool';
     const STRING = 'string';
     const ARRAY = 'array';
